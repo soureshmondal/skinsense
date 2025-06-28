@@ -20,11 +20,18 @@ interface AnalysisResult {
   riskLevel: "low" | "medium" | "high"
 }
 
+// interface ChatAssistantProps {
+//   isOpen: boolean
+//   onClose: () => void
+//   analysisResult: AnalysisResult | null
+// }
 interface ChatAssistantProps {
   isOpen: boolean
   onClose: () => void
   analysisResult: AnalysisResult | null
+  sessionId: string | null
 }
+
 
 const suggestedQuestions = [
   "What are the symptoms to watch for?",
@@ -34,7 +41,9 @@ const suggestedQuestions = [
   "How can I prevent this in the future?",
 ]
 
-export function ChatAssistant({ isOpen, onClose, analysisResult }: ChatAssistantProps) {
+// export function ChatAssistant({ isOpen, onClose, analysisResult }: ChatAssistantProps) {
+export function ChatAssistant({ isOpen, onClose, analysisResult, sessionId }: ChatAssistantProps) {
+
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState("")
   const [isTyping, setIsTyping] = useState(false)
@@ -76,24 +85,60 @@ export function ChatAssistant({ isOpen, onClose, analysisResult }: ChatAssistant
     setIsTyping(true)
 
     // Simulate AI response
-    setTimeout(() => {
-      const responses = [
-        "Based on your analysis results, this appears to be a benign condition. However, it's important to monitor any changes in size, color, or texture. I recommend scheduling a follow-up with a dermatologist for professional evaluation.",
-        "The symptoms to watch for include changes in asymmetry, border irregularity, color variation, diameter growth, or evolution of the lesion. If you notice any of these changes, consult a healthcare professional promptly.",
-        "Treatment options vary depending on the specific diagnosis. For benign lesions, monitoring is often sufficient. However, some cases may require removal for cosmetic reasons or if there are concerning features.",
-        "I recommend seeing a dermatologist within 2-4 weeks for a professional evaluation. They can provide a definitive diagnosis and recommend appropriate next steps based on their clinical examination.",
-      ]
+    // setTimeout(() => {
+    //   const responses = [
+    //     "Based on your analysis results, this appears to be a benign condition. However, it's important to monitor any changes in size, color, or texture. I recommend scheduling a follow-up with a dermatologist for professional evaluation.",
+    //     "The symptoms to watch for include changes in asymmetry, border irregularity, color variation, diameter growth, or evolution of the lesion. If you notice any of these changes, consult a healthcare professional promptly.",
+    //     "Treatment options vary depending on the specific diagnosis. For benign lesions, monitoring is often sufficient. However, some cases may require removal for cosmetic reasons or if there are concerning features.",
+    //     "I recommend seeing a dermatologist within 2-4 weeks for a professional evaluation. They can provide a definitive diagnosis and recommend appropriate next steps based on their clinical examination.",
+    //   ]
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        type: "assistant",
-        content: responses[Math.floor(Math.random() * responses.length)],
-        timestamp: new Date(),
-      }
+    //   const assistantMessage: Message = {
+    //     id: (Date.now() + 1).toString(),
+    //     type: "assistant",
+    //     content: responses[Math.floor(Math.random() * responses.length)],
+    //     timestamp: new Date(),
+    //   }
 
-      setMessages((prev) => [...prev, assistantMessage])
-      setIsTyping(false)
-    }, 2000)
+    //   setMessages((prev) => [...prev, assistantMessage])
+    //   setIsTyping(false)
+    // }, 2000)
+    try {
+  const res = await fetch("http://localhost:5000/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      session_id: sessionId,
+      message: content,
+    }),
+  })
+
+  const data = await res.json()
+  const assistantMessage: Message = {
+    id: Date.now().toString(),
+    type: "assistant",
+    content: data.response,
+    timestamp: new Date(),
+  }
+
+  setMessages((prev) => [...prev, assistantMessage])
+  setIsTyping(false)
+} catch (error) {
+  console.error(error)
+  setMessages((prev) => [
+    ...prev,
+    {
+      id: Date.now().toString(),
+      type: "assistant",
+      content: "Sorry, I couldn't fetch a response. Please try again later.",
+      timestamp: new Date(),
+    },
+  ])
+  setIsTyping(false)
+}
+
   }
 
   const handleSuggestedQuestion = (question: string) => {
