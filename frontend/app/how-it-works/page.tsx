@@ -155,7 +155,7 @@ export default function HowItWorksPage() {
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       <feature.icon className="h-8 w-8 text-blue-600" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                    <h3 className="text-xl font-semibold text-white-900 mb-3">{feature.title}</h3>
                     <p className="text-gray-600">{feature.description}</p>
                   </CardContent>
                 </Card>
