@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "SkinAI - AI-Powered Skin Lesion Analysis",
+  title: "SkinSense - AI-Powered Skin Lesion Analysis",
   description:
     "Upload skin lesion images for instant AI-powered classification and chat with our expert assistant about your results.",
   keywords: "skin lesion, AI analysis, dermatology, melanoma detection, skin cancer screening",
