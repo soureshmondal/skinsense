@@ -11,6 +11,8 @@ interface AnalysisResult {
   classification: string
   confidence: number
   description: string
+  preventionTips?: string[]
+  symptoms:string[]
   recommendations: string[]
   riskLevel: "low" | "medium" | "high"
   originalImage?: string
@@ -74,9 +76,9 @@ export function AnalysisResults({ result, onChatOpen }: AnalysisResultsProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          <div className="grid md:grid-cols-2 gap-6">
+          {/* <div className="grid md:grid-cols-2 gap-6"> */}
             {/* Original Image */}
-            <div className="space-y-3">
+            {/* <div className="space-y-3">
               <h4 className="font-semibold text-foreground">Original Image</h4>
               <div className="relative rounded-lg overflow-hidden border-2 border-gray-200 dark:border-gray-700">
                 <img
@@ -88,7 +90,7 @@ export function AnalysisResults({ result, onChatOpen }: AnalysisResultsProps) {
                   Original
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Detected Image */}
             <div className="space-y-3">
@@ -107,7 +109,7 @@ export function AnalysisResults({ result, onChatOpen }: AnalysisResultsProps) {
                 </div>
               </div>
             </div>
-          </div>
+          
 
           {/* Detection Details */}
           <div className="mt-6 p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg">
@@ -183,10 +185,46 @@ export function AnalysisResults({ result, onChatOpen }: AnalysisResultsProps) {
                 <div className="text-xs text-muted-foreground">Shape Analysis</div>
               </div>
             </div>
+            <div>
+              <h4 className="font-semibold text-foreground mb-3">Prevention Tips</h4>
+              <ul className="space-y-2">
+                {result.preventionTips?.map((tip, index) => (
+                  <motion.li
+                    key={`prevention-${index}`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                    className="flex items-start gap-2 text-muted-foreground"
+                  >
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                    {tip}
+                  </motion.li>
+                ))}
+              </ul>
+
+            </div>
+            <div>
+              <h5 className="font-semibold text-foreground mb-3">Symptoms</h5>
+              <ul className="space-y-2">
+                {result.symptoms?.map((tip, index) => (
+                  <motion.li
+                    key={`symptom-${index}`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                    className="flex items-start gap-2 text-muted-foreground"
+                  >
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                    {tip}
+                  </motion.li>
+                ))}
+              </ul>
+
+            </div>
 
             {/* Recommendations */}
             <div>
-              <h4 className="font-semibold text-foreground mb-3">Recommendations</h4>
+              <h6 className="font-semibold text-foreground mb-3">Recommendations</h6>
               <ul className="space-y-2">
                 {result.recommendations.map((rec, index) => (
                   <motion.li
