@@ -1,1 +1,9 @@
-
+flask
+flask-cors
+torch
+torchvision
+albumentations
+scikit-learn
+matplotlib
+pillow
+google-generativeai
