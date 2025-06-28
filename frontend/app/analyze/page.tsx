@@ -11,10 +11,13 @@ import { AnalysisResults } from "@/components/analysis-results"
 import { ChatAssistant } from "@/components/chat-assistant"
 import { AnimatedSection } from "@/components/animated-section"
 
+
 interface AnalysisResult {
   classification: string
   confidence: number
   description: string
+  preventionTips?: string[]
+  symptoms: string[]
   recommendations: string[]
   riskLevel: "low" | "medium" | "high"
   originalImage?: string
@@ -30,6 +33,7 @@ interface AnalysisResult {
 }
 
 export default function AnalyzePage() {
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
@@ -41,44 +45,84 @@ export default function AnalyzePage() {
     setShowChat(false)
   }, [])
 
+  // const handleAnalyze = async () => {
+  //   if (!uploadedImage) return
+
+  //   setIsAnalyzing(true)
+
+  //   // Simulate AI analysis with multiple stages
+  //   await new Promise((resolve) => setTimeout(resolve, 3000))
+
+  //   // Mock analysis result with detection images
+  //   const mockResult: AnalysisResult = {
+  //     classification: "Benign Nevus",
+  //     confidence: 87.3,
+  //     description: "A benign (non-cancerous) mole or nevus. These are common skin growths that are typically harmless.",
+  //     recommendations: [
+  //       "Monitor for any changes in size, color, or shape",
+  //       "Protect from sun exposure with SPF 30+ sunscreen",
+  //       "Schedule routine dermatological check-ups every 6-12 months",
+  //       "Take monthly self-examination photos for comparison",
+  //     ],
+  //     riskLevel: "low",
+  //     originalImage: uploadedImage,
+  //     // In a real app, this would come from the backend AI processing
+  //     detectedImage: "/placeholder.svg?height=300&width=300&text=AI+Detected+Lesion",
+  //     detectionRegions: [
+  //       {
+  //         x: 120,
+  //         y: 80,
+  //         width: 60,
+  //         height: 45,
+  //         confidence: 87.3,
+  //         label: "Primary lesion",
+  //       },
+  //     ],
+  //   }
+
+  //   setAnalysisResult(mockResult)
+  //   setIsAnalyzing(false)
+  // }
   const handleAnalyze = async () => {
-    if (!uploadedImage) return
+  if (!uploadedImage) return
+  setIsAnalyzing(true)
 
-    setIsAnalyzing(true)
+  try {
+    const formData = new FormData()
+    const response = await fetch(uploadedImage)
+    const blob = await response.blob()
+    formData.append("image", blob, "upload.jpg")
 
-    // Simulate AI analysis with multiple stages
-    await new Promise((resolve) => setTimeout(resolve, 3000))
+    const apiRes = await fetch("http://localhost:5000/analyze", {
+      method: "POST",
+      body: formData,
+    })
 
-    // Mock analysis result with detection images
-    const mockResult: AnalysisResult = {
-      classification: "Benign Nevus",
-      confidence: 87.3,
-      description: "A benign (non-cancerous) mole or nevus. These are common skin growths that are typically harmless.",
-      recommendations: [
-        "Monitor for any changes in size, color, or shape",
-        "Protect from sun exposure with SPF 30+ sunscreen",
-        "Schedule routine dermatological check-ups every 6-12 months",
-        "Take monthly self-examination photos for comparison",
-      ],
-      riskLevel: "low",
+    if (!apiRes.ok) throw new Error("Analysis failed")
+    const data = await apiRes.json()
+
+    const result: AnalysisResult = {
+      classification: data.full_name,
+      confidence: data.confidence,
+      description: data.description,
+      preventionTips: data.prevention_tips,
+      symptoms:data.symptoms,
+      recommendations: data.recommendations,
+      riskLevel: data.risk_level,
       originalImage: uploadedImage,
-      // In a real app, this would come from the backend AI processing
-      detectedImage: "/placeholder.svg?height=300&width=300&text=AI+Detected+Lesion",
-      detectionRegions: [
-        {
-          x: 120,
-          y: 80,
-          width: 60,
-          height: 45,
-          confidence: 87.3,
-          label: "Primary lesion",
-        },
-      ],
+      detectedImage: data.visualization,
     }
 
-    setAnalysisResult(mockResult)
+    setSessionId(data.session_id)
+    setAnalysisResult(result)
+  } catch (err) {
+    console.error(err)
+    alert("Failed to analyze image")
+  } finally {
     setIsAnalyzing(false)
   }
+}
+
 
   const handleChatOpen = () => {
     setShowChat(true)
@@ -245,7 +289,13 @@ export default function AnalyzePage() {
       </div>
 
       {/* Chat Assistant */}
-      <ChatAssistant isOpen={showChat} onClose={() => setShowChat(false)} analysisResult={analysisResult} />
+      {/* <ChatAssistant isOpen={showChat} onClose={() => setShowChat(false)} analysisResult={analysisResult} /> */}
+      <ChatAssistant
+      isOpen={showChat}
+      onClose={() => setShowChat(false)}
+      analysisResult={analysisResult}
+      sessionId={sessionId}/>
+
     </div>
   )
 }
