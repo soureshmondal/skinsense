@@ -6,31 +6,12 @@ import { Badge } from "@/components/ui/badge"
 import { Heart, Users, Award, Globe, Shield, BookOpen } from "lucide-react"
 import { AnimatedSection } from "@/components/animated-section"
 
-const teamMembers = [
-  {
-    name: "Dr. Sarah Chen",
-    role: "Chief Medical Officer",
-    bio: "Board-certified dermatologist with 15+ years of experience in skin cancer research.",
-    image: "/placeholder.svg?height=200&width=200",
-  },
-  {
-    name: "Alex Rodriguez",
-    role: "AI Research Lead",
-    bio: "PhD in Machine Learning, specializing in medical image analysis and deep learning.",
-    image: "/placeholder.svg?height=200&width=200",
-  },
-  {
-    name: "Dr. Michael Park",
-    role: "Clinical Advisor",
-    bio: "Dermatopathologist with expertise in melanoma diagnosis and digital pathology.",
-    image: "/placeholder.svg?height=200&width=200",
-  },
-]
+
 
 const stats = [
   { icon: Users, number: "50K+", label: "Users Helped" },
   { icon: Award, number: "95%", label: "Accuracy Rate" },
-  { icon: Globe, number: "25+", label: "Countries" },
+  { icon: Globe, number: "10K+", label: "Image Dataset" },
   { icon: Heart, number: "24/7", label: "Support" },
 ]
 
@@ -88,7 +69,7 @@ export default function AboutPage() {
                 <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-6">
                     <stat.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                    <div className="text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
+                    <div className="text-3xl font-bold text-white-900 mb-2">{stat.number}</div>
                     <div className="text-gray-600">{stat.label}</div>
                   </CardContent>
                 </Card>
@@ -97,51 +78,7 @@ export default function AboutPage() {
           </div>
         </AnimatedSection>
 
-        {/* Team Section */}
-        <AnimatedSection className="mb-16">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold text-foreground mb-4">Meet Our Expert Team</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our multidisciplinary team combines medical expertise with cutting-edge technology to deliver the most
-              accurate and reliable skin analysis platform.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card border">
-                  <CardContent className="p-6">
-                    <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
-                      <img
-                        src={member.image || "/placeholder.svg"}
-                        alt={member.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">{member.name}</h3>
-                    <Badge variant="secondary" className="mb-4">
-                      {member.role}
-                    </Badge>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </AnimatedSection>
+        
 
         {/* Technology & Safety */}
         <AnimatedSection>
@@ -155,12 +92,12 @@ export default function AboutPage() {
               <Card className="h-full">
                 <CardContent className="p-8">
                   <BookOpen className="h-12 w-12 text-blue-600 mb-6" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Technology</h3>
+                  <h3 className="text-2xl font-bold text-white-900 mb-4">Our Technology</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     Our AI model is trained on the HAM10000 dataset, one of the largest collections of dermatoscopic
                     images, ensuring high accuracy across diverse skin types and lesion categories.
                   </p>
-                  <ul className="space-y-2 text-gray-700">
+                  <ul className="space-y-2 text-white-700">
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-blue-500 rounded-full" />
                       Deep Convolutional Neural Networks
@@ -187,7 +124,7 @@ export default function AboutPage() {
               <Card className="h-full">
                 <CardContent className="p-8">
                   <Shield className="h-12 w-12 text-blue-600 mb-6" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Privacy & Disclaimer</h3>
+                  <h3 className="text-2xl font-bold text-white-900 mb-4">Privacy & Disclaimer</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     Your privacy is our priority. All images are processed securely and never stored on our servers. Our
                     AI analysis is for informational purposes only and should not replace professional medical advice.
