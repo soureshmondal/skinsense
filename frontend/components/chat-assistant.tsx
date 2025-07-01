@@ -104,7 +104,7 @@ export function ChatAssistant({ isOpen, onClose, analysisResult, sessionId }: Ch
     //   setIsTyping(false)
     // }, 2000)
     try {
-  const res = await fetch("http://localhost:5000/chat", {
+  const res = await fetch("https://souresh-skin-lesion-detection.hf.space", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
