@@ -93,7 +93,7 @@ export default function AnalyzePage() {
     const blob = await response.blob()
     formData.append("image", blob, "upload.jpg")
 
-    const apiRes = await fetch("https://souresh-skin-lesion-detection.hf.space", {
+    const apiRes = await fetch("https://souresh-skin-lesion-detection.hf.space/analyze", {
       method: "POST",
       body: formData,
     })
