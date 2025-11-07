@@ -23,7 +23,7 @@ SkinSense is a comprehensive web application that detects and classifies skin le
 | Metric | Value |
 |--------|-------|
 | Accuracy | ~91% |
-| Framework | EfficientNet (Transfer Learning) |
+| Framework | EfficientNet + DenseNet(Ensemble model) |
 | Dataset | HAM10000 (10,000+ dermatoscopic images) |
 | Classes | 7 skin lesion types |
 | Preprocessing | Image normalization, augmentation, and enhancement |
@@ -126,15 +126,6 @@ The integrated Gemini API chatbot provides:
 
 **SkinSense is an AI-assisted tool for informational purposes only and should not be considered a substitute for professional medical diagnosis.** Always consult with a qualified dermatologist for proper diagnosis and treatment. This application is designed to support healthcare professionals and provide preliminary assessment guidance.
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## 📄 License
 
@@ -146,17 +137,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - GitHub: [@soureshmondal](https://github.com/soureshmondal)
 - Live Demo: [skinsense-five.vercel.app](https://skinsense-five.vercel.app/)
 
-## 📚 References
 
-- [HAM10000 Dataset](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T)
-- [EfficientNet: Rethinking Model Scaling](https://arxiv.org/abs/1905.11946)
-- [Transfer Learning in Medical Imaging](https://arxiv.org/abs/1811.02521)
-- [Google Gemini API Documentation](https://ai.google.dev/)
-
-## 📞 Support
-
-For issues, questions, or suggestions, please open an issue on GitHub or contact the author directly.
-
----
-
-**Last Updated**: November 2025
